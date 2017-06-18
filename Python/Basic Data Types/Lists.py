@@ -44,7 +44,7 @@ if __name__ == '__main__':
 #end main
 
 '''
-Author: dennysregalado 
+Author: dennysregalado
 
 n = input()
 l = []
