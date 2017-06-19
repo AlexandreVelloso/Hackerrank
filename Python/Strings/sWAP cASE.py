@@ -10,7 +10,7 @@ def swap_case(s):
         # if lowercase
         elif( c>= 'a' and c <= 'z' ):
             swaped += c.upper()
-            
+
         else:
             swaped += c
     # end for
