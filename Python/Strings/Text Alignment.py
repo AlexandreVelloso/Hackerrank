@@ -13,7 +13,7 @@ for i in range(thickness+1):
 
 #Middle Belt
 for i in range((thickness+1)//2):
-    print((c*thickness*5).center(thickness*6))    
+    print((c*thickness*5).center(thickness*6))
 
 #Bottom Pillars
 for i in range(thickness+1):
