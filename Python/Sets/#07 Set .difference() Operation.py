@@ -12,4 +12,5 @@ if __name__ == '__main__':
     # french newspapper
     french = set( map( int, input().split() ) )
 
+    print( len( english - french ) )
     print( len( english.difference( french ) ) )
