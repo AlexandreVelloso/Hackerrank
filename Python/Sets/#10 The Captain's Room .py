@@ -2,7 +2,7 @@ from collections import Counter
 
 if __name__ == '__main__':
 
-    '''
+    
     # i don't use K
     K = int( input() )
 
@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     # print the min number
     print( min( count, key = count.get ) )
-    '''
+
 
 '''
 
