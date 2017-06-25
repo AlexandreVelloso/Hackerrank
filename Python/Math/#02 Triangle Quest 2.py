@@ -29,5 +29,5 @@ then
 111 = { sum 10^i, i=1 to n-1 } ; wolfram alpha notation
 
 then the formula is
-( 10^(n-1) )/9 * ( 10^(n-1) )/9
+( 10^(n)-1) )/9 * ( 10^(n)-1) )/9
 '''
