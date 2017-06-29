@@ -3,9 +3,9 @@ import re
 if __name__ == '__main__':
 
     for x in range( int(input() ) ):
-        str = input()
+        number = input()
 
-        print( bool( re.match("^[+-]?[0-9]*\.[0-9]+$", str) ) )
+        print( bool( re.match("^[+-]?[0-9]*\.[0-9]+$", number) ) )
 
 '''
 explanation:
