@@ -21,7 +21,7 @@ if __name__ == '__main__':
         # I'th word
         groupB.append( input() )
     # end for
-    
+
     for word in groupB:
         # if the word exists in groupA
         if( word in groupA ):
