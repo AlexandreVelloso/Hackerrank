@@ -22,7 +22,6 @@ public class ExtraLongFactorials {
         int number;
 
         number = sc.nextInt();
-
         System.out.println( factorial(number) );
 
     }
