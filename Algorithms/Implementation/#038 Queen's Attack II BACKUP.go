@@ -3,7 +3,7 @@ import"fmt";
 
 type position struct{
   // a position I and J on the chessboard
-  line,column int
+  posI,posJ int
 }
 
 // position I and J of the queen on the chessboard
@@ -31,31 +31,31 @@ func min( a,b int ) int{
   }
 }
 
-func isAbaixoDiagonalPrincipal( pos position )bool{
-  return ( pos.line > pos.column );
+func isAbaixoDiagonalPrincipal( )bool{
+  return ( posQueen.posI > posQueen.posJ );
 }
 
-func isAcimaDiagonalPrincipal( pos position ) bool{
-  return ( pos.line < pos.column );
+func isAcimaDiagonalPrincipal( ) bool{
+  return ( posQueen.posI < posQueen.posJ );
 }
 
-func isAbaixoDiagonalSecundaria( pos position )bool{
-  return (pos.line + pos.column >= size);
+func isAbaixoDiagonalSecundaria( )bool{
+  return (posQueen.posI + posQueen.posJ >= size);
 }
 
-func isAcimaDiagonalSecundaria( pos position )bool{
-  return (pos.line + pos.column < size);
+func isAcimaDiagonalSecundaria( )bool{
+  return (posQueen.posI + posQueen.posJ < size);
 }
 
-func isDiagonalPrincipal( pos position ) bool{
-  return ( pos.line == pos.column );
+func isDiagonalPrincipal( ) bool{
+  return ( posQueen.posI == posQueen.posJ );
 }
 
 func solve( ){
   fmt.Println( "posQueen: ",posQueen );
   fmt.Println( "Obstaculos: ",obstacles );
 
-
+  
 }
 
 /**
