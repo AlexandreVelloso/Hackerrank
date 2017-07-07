@@ -70,8 +70,10 @@ func main(){
 
     // if is in the final state
     if( state == 10 ){
+      
       fmt.Println( "YES" );
     }else{
+      
       fmt.Println( "NO" );
     }
 
