@@ -1,5 +1,4 @@
 package main
-
 import "fmt"
 
 // func that try to reduce a string
