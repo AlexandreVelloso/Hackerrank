@@ -13,6 +13,7 @@ func main() {
     
     // count the number of letters uppercase
     for i:= 0; i < len(str); i++ {
+        
         if( str[i] >='A' && str[i] <='Z' ){
             count++;
         }
