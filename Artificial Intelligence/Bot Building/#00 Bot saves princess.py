@@ -9,12 +9,12 @@ def displayPathtoPrincess(n,grid):
     posP = (-1,-1)
 
     # find the position of the bot( m )
-    for i in range( n ):
-        if( 'm' in grid[i]):
+    for x in range( n ):
+        if( 'm' in grid[x]):
 
             for x in range(n):
-                if( grid[i][x] == 'm'):
-                    posM = (i,x)
+                if( grid[x][y] == 'm'):
+                    posM = (x,y)
     # end for
 
     # the princess is in one corner,
