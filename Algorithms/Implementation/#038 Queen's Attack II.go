@@ -204,6 +204,10 @@ func contAbaixoDir( pos position, obstacles []position ) int{
 }
 */
 
+/**
+* Verifica se existe um obstaculo abaixo da rainha, e se ele e'
+* o menor ate o momento
+*/
 func isAbaixo( pos, obstacle, obstaculoMaisPerto position ) bool{
 
   // testa se o obstaculo esta na mesma coluna que a rainha
@@ -214,6 +218,9 @@ func isAbaixo( pos, obstacle, obstaculoMaisPerto position ) bool{
            obstacle.line > obstaculoMaisPerto.line )
 }// end function isAcima
 
+/**
+* Conta quantas casas livres existem abaixo da rainha
+*/
 func contAbaixo( pos position, obstacles []position ) int{
 
     var obstaculoMaisPerto = position{ MIN , MIN };
@@ -232,8 +239,95 @@ func contAbaixo( pos position, obstacles []position ) int{
     }else{
       return ( size - pos.line )
     }
-
 }// end function contAbaixo
+
+/**
+* Verifica se um obstaculo esta na diagonal superior da rainha e se
+* esse obstaculo e' o meis perto ate entao
+*/
+func isAbaixoEsq( pos, obstaculo, obstaculoMaisPerto position ) bool{
+
+  // para saber se um obstaculo esta na mesma diagonal direita
+  // a soma da linha e coluna vao ser uma constante
+  var constante = pos.line + pos.column
+
+  // Verifica se o obstaculo esta na diagonal superior direita da rainha,
+  // e se ele e' o mais perto
+  // e tbm se ele esta na parte de cima, e nao na de baixo
+  return ( constante == (obstaculo.line + obstaculo.column) &&
+           obstaculo.line < obstaculoMaisPerto.line &&
+           obstaculo.column < pos.column )
+}// end function isAcimaDir
+
+/**
+* Conta quantas casas livres a rainha tem para a diagonal
+* inferior direita
+*/
+func contAbaixoEsq( pos position, obstacles []position ) int{
+
+  var obstaculoMaisPerto = position{ MAX , MAX };
+
+  // test if have a obstacle
+  for i := 0; i < len( obstacles ); i++{
+
+    if( isAbaixoEsq( pos, obstacles[i],obstaculoMaisPerto ) ){
+      obstaculoMaisPerto = obstacles[i]
+    }
+  }
+
+  // if have a obstacle
+  if( obstaculoMaisPerto.line != MAX ){
+
+    return ( obstaculoMaisPerto.line - 1 - pos.line )
+  }else{
+
+    if( isAbaixoDiagonalSecundaria(pos) ){
+      return ( size - 1 -pos.line )
+    }else{
+      return ( pos.column )
+    }
+
+  }
+}// end function contAcimaDir
+
+/**
+* Verifica se um obstaculo esta na direita da rainha e se ele e' o mais
+* perto ate entao
+*/
+func isEsq( pos, obstaculo, obstaculoMaisPerto position ) bool{
+
+  // testa se a rainha e o obstaculo estao na mesma linha
+  // testa se a coluna do obstaculo e' maior do que a coluna da rainha
+  // testa se o obstaculo esta mais perto do que o anterior
+  return ( pos.line == obstaculo.line &&
+           pos.column > obstaculo.column &&
+           obstaculo.column > obstaculoMaisPerto.column )
+}// end function isDir
+
+/**
+* Conta quantas casas livres a rainha tem para a direita
+*/
+func contEsq( pos position, obstacles []position ) int{
+
+  var obstaculoMaisPerto = position{ MIN , MIN };
+
+  // test if have a obstacle
+  for i := 0; i < len( obstacles ); i++{
+
+    if( isEsq( pos, obstacles[i],obstaculoMaisPerto ) ){
+      obstaculoMaisPerto = obstacles[i]
+    }
+  }
+
+  // if have obstacle
+  if( obstaculoMaisPerto.line != MIN ){
+
+    return( pos.column - 1 - obstaculoMaisPerto.column )
+  }else{
+
+    return( pos.column )
+  }
+}// end function contEsq
 
 func solve( ){
   fmt.Println( "posQueen: ",posQueen );
@@ -244,6 +338,8 @@ func solve( ){
   // fmt.Println( contDir(posQueen, obstacles) )
   // fmt.Println( contAbaixoDir(posQueen, obstacles) ) ??????????
   // fmt.Println( contAbaixo(posQueen, obstacles) )
+  // fmt.Println( contAbaixoEsq(posQueen, obstacles) )
+  // fmt.Println( contEsq(posQueen, obstacles) )
 }
 
 /**
