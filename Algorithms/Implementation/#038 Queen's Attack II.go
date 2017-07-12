@@ -1,5 +1,6 @@
 package main;
-import"fmt";
+import "fmt"
+import "math"
 
 type position struct{
   // a position I and J on the chessboard
@@ -12,6 +13,8 @@ var posQueen position;
 var obstacles []position;
 // size of the chessboard
 var size int;
+// max int
+var MIN = math.MinInt32
 
 func mod( a, b int ) int{
   var mod = a-b;
@@ -51,11 +54,35 @@ func isDiagonalPrincipal( pos position ) bool{
   return ( pos.line == pos.column );
 }
 
+/**
+* Conta quantas livres a rainha tem acima dela
+*/
+func contCima ( pos position, obstacles []position ) int{
+
+  var posObstacle = position{ MIN , MIN };
+
+  // test if have a obstacle
+  for i := 0; i < len( obstacles ); i++{
+
+    if( obstacles[i].column == pos.column && obstacles[i].line < posObstacle.line ){
+      fmt.Println("hue")
+      posObstacle = obstacles[i]
+    }
+  }
+
+  // if have a obstacle
+  if( posObstacle.line != MIN ){
+    return ( pos.line - posObstacle.line )
+  }else{
+    return ( pos.line )
+  }
+}
+
 func solve( ){
   fmt.Println( "posQueen: ",posQueen );
   fmt.Println( "Obstaculos: ",obstacles );
 
-
+  fmt.Println( contCima(posQueen, obstacles) )
 }
 
 /**
