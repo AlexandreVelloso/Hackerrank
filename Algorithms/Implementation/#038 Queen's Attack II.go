@@ -18,24 +18,6 @@ var MIN = math.MinInt32
 // max int
 var MAX = math.MaxInt32
 
-func mod( a, b int ) int{
-  var mod = a-b;
-
-  if( mod < 0 ){
-    mod *= -1;
-  }
-
-  return mod;
-}
-
-func min( a,b int ) int{
-  if( a < b ){
-    return a;
-  }else{
-    return b;
-  }
-}
-
 func isAbaixoDiagonalPrincipal( pos position )bool{
   return ( pos.line > pos.column );
 }
@@ -52,10 +34,6 @@ func isAcimaDiagonalSecundaria( pos position )bool{
   return (pos.line + pos.column < size);
 }
 
-func isDiagonalPrincipal( pos position ) bool{
-  return ( pos.line == pos.column );
-}
-
 /**
 * Verifica se um obstaculo esta acima da rainha, e se ele e'
 * o mais perto ate entao
@@ -65,6 +43,7 @@ func isAcima( pos, obstacle, obstaculoMaisPerto position ) bool{
   // testa se o obstaculo esta na mesma coluna que a rainha
   // testa se o obstaculo e' o mais proximo dela nessa coluna
   return ( obstacle.column == pos.column &&
+           obstacle.line < pos.line &&
            obstacle.line < obstaculoMaisPerto.line )
 }// end function isAcima
 
@@ -83,8 +62,10 @@ func contAcima( pos position, obstacles []position ) int{
     }
   }
 
+  // fmt.Println( obstaculoMaisPerto )
+
   // if have a obstacle
-  if( obstaculoMaisPerto.line != MIN ){
+  if( obstaculoMaisPerto.line != MAX ){
     return ( pos.line - obstaculoMaisPerto.line - 1 )
   }else{
     return ( pos.line )
@@ -104,7 +85,9 @@ func isAcimaDir( pos, obstaculo, obstaculoMaisPerto position ) bool{
   // Verifica se o obstaculo esta na diagonal superior direita da rainha,
   // e se ele e' o mais perto
   // e tbm se ele esta na parte de cima, e nao na de baixo
-  return ( constante == (obstaculo.line + obstaculo.column) && obstaculo.line > obstaculoMaisPerto.line && obstaculo.column > pos.column )
+  return ( constante == (obstaculo.line + obstaculo.column) &&
+           obstaculo.line > obstaculoMaisPerto.line &&
+           obstaculo.column > pos.column )
 }// end function isAcimaDir
 
 /**
@@ -179,30 +162,46 @@ func contDir( pos position, obstacles []position ) int{
   }
 }// end function contDir
 
-/*
 
-  NAO SEI AINDA O PADRAO PARA ESSE TIPO DE FUNCAO
+func isAbaixoDir( pos, obstaculo, obstaculoMaisPerto position ) bool{
 
-func isAbaixoDir( pos position, obstacles []position ) int{
+  // existe uma constante i-j para todos os elementos da mesma diagonal
+  var constante = pos.line - pos.column
 
-  return( false )
+  // testa se a coluna do obstaculo e' maior do que a da rainha
+  // todos os elementos dessa diagonal terao a mesma constante i - j
+  // testa se o obstaculo esta mais perto do que o anterior
+  return( obstaculo.column > pos.column &&
+          (obstaculo.line - obstaculo.column) == constante &&
+          obstaculo.column < obstaculoMaisPerto.column )
 }
 
 func contAbaixoDir( pos position, obstacles []position ) int{
 
-  var obstaculoMaisPerto = position{ MIN , MIN };
+  var obstaculoMaisPerto = position{ MAX , MAX };
 
   // test if have a obstacle
   for i := 0; i < len( obstacles ); i++{
 
-    if( isDir( pos, obstacles[i],obstaculoMaisPerto ) ){
+    if( isAbaixoDir( pos, obstacles[i],obstaculoMaisPerto ) ){
       obstaculoMaisPerto = obstacles[i]
     }
   }
 
-  return -1
+  // if have obstacles
+  if( obstaculoMaisPerto.line != MAX ){
+
+    return ( obstaculoMaisPerto.column - 1 - pos.column )
+  }else{
+
+    if( isAcimaDiagonalPrincipal(pos) ){
+      return ( size -1 - pos.column )
+    }else{
+      return ( size -1 - pos.line )
+    }
+  }
+
 }
-*/
 
 /**
 * Verifica se existe um obstaculo abaixo da rainha, e se ele e'
@@ -237,7 +236,7 @@ func contAbaixo( pos position, obstacles []position ) int{
     if( obstaculoMaisPerto.line != MIN ){
       return ( obstaculoMaisPerto.line - pos.line - 1 )
     }else{
-      return ( size - pos.line )
+      return ( size - 1 - pos.line )
     }
 }// end function contAbaixo
 
@@ -329,9 +328,68 @@ func contEsq( pos position, obstacles []position ) int{
   }
 }// end function contEsq
 
+func isAcimaEsq( pos, obstaculo, obstaculoMaisPerto position ) bool{
+
+  // existe uma constante i-j para todos os elementos da mesma diagonal
+  var constante = pos.line - pos.column
+
+  // testa se a coluna do obstaculo e' maior do que a da rainha
+  // todos os elementos dessa diagonal terao a mesma constante i - j
+  // testa se o obstaculo esta mais perto do que o anterior
+  return( obstaculo.column < pos.column &&
+          (obstaculo.line - obstaculo.column) == constante &&
+          obstaculo.column > obstaculoMaisPerto.column )
+}
+
+func contAcimaEsq( pos position, obstacles []position ) int{
+
+  var obstaculoMaisPerto = position{ MIN , MIN };
+
+  // test if have a obstacle
+  for i := 0; i < len( obstacles ); i++{
+
+    if( isAcimaEsq( pos, obstacles[i],obstaculoMaisPerto ) ){
+      obstaculoMaisPerto = obstacles[i]
+    }
+  }
+
+  // if have obstacles
+  if( obstaculoMaisPerto.line != MIN ){
+
+    return ( pos.column - 1 - obstaculoMaisPerto.column )
+  }else{
+
+    if( isAcimaDiagonalPrincipal(pos) ){
+      return ( pos.line )
+    }else{
+      return ( pos.column )
+    }
+  }
+
+}
+
 func solve( ){
-  fmt.Println( "posQueen: ",posQueen );
-  fmt.Println( "Obstaculos: ",obstacles );
+  // fmt.Println( "posQueen: ",posQueen );
+  // fmt.Println( "Obstaculos: ",obstacles );
+
+  var soma = contAcima( posQueen, obstacles )
+  soma += contAcimaDir( posQueen, obstacles )
+  soma += contDir( posQueen, obstacles )
+  soma += contAbaixoDir( posQueen, obstacles )
+  soma += contAbaixo( posQueen, obstacles )
+  soma += contAbaixoEsq( posQueen, obstacles )
+  soma += contEsq( posQueen, obstacles )
+  soma += contAcimaEsq( posQueen, obstacles )
+
+  fmt.Println( soma )
+
+  // fmt.Println("acima", contAcima( posQueen, obstacles ) )
+  // fmt.Println("acima dir", contAcimaDir( posQueen, obstacles ) )
+  // fmt.Println("dir", contDir( posQueen, obstacles ) )
+  // fmt.Println("abaixo dir", contAbaixoDir( posQueen, obstacles ) )
+  // fmt.Println("abaixo", contAbaixo( posQueen, obstacles ) )
+  // fmt.Println("abaixo esq", contAbaixoEsq( posQueen, obstacles ) )
+  // fmt.Println("acima esq", contAcimaEsq( posQueen, obstacles ) )
 
   // fmt.Println( contAcima(posQueen, obstacles) )
   // fmt.Println( contAcimaDir(posQueen, obstacles) )
@@ -340,6 +398,7 @@ func solve( ){
   // fmt.Println( contAbaixo(posQueen, obstacles) )
   // fmt.Println( contAbaixoEsq(posQueen, obstacles) )
   // fmt.Println( contEsq(posQueen, obstacles) )
+  // fmt.Println( contAcimaEsq(posQueen, obstacles) ) ??????????
 }
 
 /**
