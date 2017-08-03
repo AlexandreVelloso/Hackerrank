@@ -1,3 +1,7 @@
+/**
+* This program only passed the preliminar tests, the other it fails
+*/
+
 package main;
 
 import "fmt";
